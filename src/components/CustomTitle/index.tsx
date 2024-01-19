@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     width: '100%',
     height: 40,
-    top: 44,
+    marginBottom: 24,
   },
   title: {
     width: 130,
