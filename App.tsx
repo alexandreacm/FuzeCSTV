@@ -31,7 +31,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>App Test</Text>
+      <Text style={styles.title}>App Testing cz</Text>
     </View>
   );
 };
