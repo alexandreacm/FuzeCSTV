@@ -11,7 +11,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <Text>App</Text>
+      <Text style={styles.title}>App Test</Text>
     </View>
   );
 };
@@ -20,6 +20,11 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 30,
+    textAlign: 'center',
   },
 });
 
