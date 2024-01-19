@@ -10,6 +10,8 @@ import {
   Roboto_700Bold,
 } from '@expo-google-fonts/roboto';
 import Navigation from './src/navigation';
+import {Provider} from 'react-redux';
+import {store} from './src/store';
 
 // create a component
 const App = () => {
@@ -25,7 +27,11 @@ const App = () => {
     return null;
   }
 
-  return <Navigation />;
+  return (
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
+  );
 };
 
 export default App;
