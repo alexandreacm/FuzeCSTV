@@ -1,8 +1,8 @@
 import {configureStore} from '@reduxjs/toolkit';
-import {leaguesApi} from '../service/leaguesApi';
+import {matchesApi} from '../service/matchesApi';
 
 export const store = configureStore({
-  reducer: {[leaguesApi.reducerPath]: leaguesApi.reducer},
+  reducer: {[matchesApi.reducerPath]: matchesApi.reducer},
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(leaguesApi.middleware),
+    getDefaultMiddleware().concat(matchesApi.middleware),
 });

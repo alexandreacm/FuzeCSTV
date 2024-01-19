@@ -2,16 +2,19 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import {theme} from '../../styles/theme';
-import {League} from '../../models';
+import {Matches} from '../../models';
 import icLogo from '../../assets/images/icLogo.png';
+import CardMatchTime from '../CardMatchTime';
 
 type Props = {
-  league: League;
+  match: Matches;
 };
 
-const Card = ({league}: Props) => {
+const CardMatch = ({match}: Props) => {
   return (
     <View style={styles.cardContainer}>
+      <CardMatchTime beginDate={match?.begin_at} />
+
       <View style={styles.teamContainer}>
         <View style={styles.containerImg}>
           <Image source={icLogo} style={styles.img} />
@@ -25,8 +28,14 @@ const Card = ({league}: Props) => {
         </View>
       </View>
       <View style={styles.leagueContainerBottom}>
-        <Image source={icLogo} style={styles.imgBottom} />
-        <Text style={styles.leagueTitle}>League + serie</Text>
+        <Image
+          source={{uri: match?.league?.image_url}}
+          style={styles.imgBottom}
+        />
+        <Text
+          style={
+            styles.leagueTitle
+          }>{`${match?.league?.name} + ${match?.serie?.full_name}`}</Text>
       </View>
     </View>
   );
@@ -103,4 +112,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Card;
+export default CardMatch;

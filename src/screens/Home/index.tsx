@@ -1,19 +1,19 @@
 import React from 'react';
-import {Text, StyleSheet, View, FlatList} from 'react-native';
+import {Text, StyleSheet, FlatList} from 'react-native';
 import {theme} from '../../styles/theme';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomTitle from '../../components/CustomTitle';
-import {useGetLeaguesQuery} from '../../service/leaguesApi';
-import Card from '../../components/Card';
-import {League} from '../../models';
+import {useGetLeaguesQuery} from '../../service/matchesApi';
+import {Matches} from '../../models';
+import CardMatch from '../../components/CardMatch';
 
 const Home = () => {
   const {data = [], isLoading, isError, error} = useGetLeaguesQuery();
 
   React.useEffect(() => {}, []);
 
-  const renderItem = ({item}: {item: League}) => {
-    return <Card league={item} />;
+  const renderItem = ({item}: {item: Matches}) => {
+    return <CardMatch match={item} />;
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -24,7 +24,7 @@ const Home = () => {
 
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={data as League[]}
+        data={data as Matches[]}
         keyExtractor={item => String(item.id)}
         renderItem={renderItem}
       />
