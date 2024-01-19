@@ -1,4 +1,7 @@
 {
   "name": "FuzeCSTV",
-  "displayName": "FuzeCSTV"
+  "displayName": "FuzeCSTV",
+  "plugins": [
+    "expo-font"
+  ]
 }
