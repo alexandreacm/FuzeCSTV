@@ -13,10 +13,12 @@ export type League = {
 
 export type Match = {
   id: number;
+  status: string;
   rescheduled: boolean;
   number_of_games: number;
   image_url: string | null;
   modified_at: string;
+  scheduled_at: string;
   begin_at: string;
   end_at: string;
   slug: string;
@@ -54,10 +56,12 @@ export type OpponentType = {
 
 export interface MatchesResponseType extends BaseResponseType {
   id: number;
+  status: string;
   rescheduled: boolean;
   number_of_games: number;
   image_url: string;
   modified_at: string;
+  scheduled_at: string;
   begin_at: string;
   end_at: string;
   slug: string;

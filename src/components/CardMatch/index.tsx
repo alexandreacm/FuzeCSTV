@@ -10,13 +10,13 @@ type Props = {
 };
 
 const CardMatch = ({match}: Props) => {
-  if (!match.opponents.length) {
+  if (!match?.opponents.length) {
     return null;
   }
 
   return (
     <View style={styles.cardContainer}>
-      <CardMatchTime beginDate={match?.begin_at} />
+      <CardMatchTime scheduledAt={match?.scheduled_at} status={match?.status} />
 
       <View style={styles.teamContainer}>
         <View style={styles.containerImg}>
@@ -73,7 +73,7 @@ const CardMatch = ({match}: Props) => {
 const styles = StyleSheet.create({
   cardContainer: {
     width: '100%',
-    height: 180,
+    height: 200,
     backgroundColor: theme.colors.ui.card,
     borderRadius: 16,
     marginBottom: 23,
@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
   },
   teamContainer: {
     width: '100%',
-    height: 135,
-    padding: 12,
+    height: 130,
+    marginBottom: 10,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -109,10 +109,11 @@ const styles = StyleSheet.create({
     height: 20,
   },
   leagueContainerBottom: {
-    width: 313,
-    height: 35,
-    flexDirection: 'row',
+    width: '100%',
+    height: 32,
+    padding: 8,
     alignItems: 'center',
+    flexDirection: 'row',
   },
   leagueTitle: {
     width: '100%',
@@ -124,19 +125,18 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   containerImg: {
-    width: 82,
-    height: 82,
+    width: 90,
+    height: 90,
     alignItems: 'center',
+    padding: 8,
   },
   titleLeague: {
-    width: '100%',
-    fontFamily: theme.fonts.heading,
+    width: 120,
+    fontFamily: theme.fonts.titleBold,
     fontSize: 10,
-    fontWeight: '400',
     textAlign: 'center',
     color: '#FFF',
-    lineHeight: 11.72,
-    marginTop: 10,
+    paddingTop: 5,
   },
 });
 

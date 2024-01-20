@@ -6,6 +6,11 @@ export const colors = {
     matchTime: '#FF0000',
     error: '#D0421B',
     success: '#138000',
+    cardMatchTime: '#474655',
+  },
+  status: {
+    running: '#FF0000',
+    finished: '#474655',
   },
   bg: {
     primary: '#161621',
