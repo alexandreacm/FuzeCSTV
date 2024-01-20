@@ -11,17 +11,18 @@ export type League = {
   slug: string;
 };
 
-export type Matches = {
+export type Match = {
   id: number;
   rescheduled: boolean;
   number_of_games: number;
-  image_url: string;
+  image_url: string | null;
   modified_at: string;
   begin_at: string;
   end_at: string;
   slug: string;
   name: string;
   match_type: string;
+  opponents: OpponentType[];
   serie: Serie;
   league: League;
 };
@@ -37,6 +38,20 @@ export type Serie = {
   season: string;
 };
 
+export type Opponent = {
+  id: number;
+  image_url: string | null;
+  location: string;
+  modified_at: string;
+  name: string;
+  slug: string;
+};
+
+export type OpponentType = {
+  opponent: Opponent;
+  type: string;
+};
+
 export interface MatchesResponseType extends BaseResponseType {
   id: number;
   rescheduled: boolean;
@@ -48,6 +63,7 @@ export interface MatchesResponseType extends BaseResponseType {
   slug: string;
   name: string;
   match_type: string;
+  opponents: OpponentType[];
   serie: Serie;
   league: League;
 }

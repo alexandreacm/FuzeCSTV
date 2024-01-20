@@ -1,37 +1,65 @@
-//import liraries
 import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import {theme} from '../../styles/theme';
-import {Matches} from '../../models';
+import {Match} from '../../models';
 import icLogo from '../../assets/images/icLogo.png';
 import CardMatchTime from '../CardMatchTime';
 
 type Props = {
-  match: Matches;
+  match: Match;
 };
 
 const CardMatch = ({match}: Props) => {
+  if (!match.opponents.length) {
+    return null;
+  }
+
   return (
     <View style={styles.cardContainer}>
       <CardMatchTime beginDate={match?.begin_at} />
 
       <View style={styles.teamContainer}>
         <View style={styles.containerImg}>
-          <Image source={icLogo} style={styles.img} />
-          <Text style={styles.titleLeague}>Time 1</Text>
+          {match.opponents[0]?.opponent?.image_url !== null ? (
+            <Image
+              source={{uri: match.opponents[0]?.opponent?.image_url}}
+              style={styles.img}
+              resizeMode="contain"
+            />
+          ) : (
+            <Image source={icLogo} style={styles.img} />
+          )}
+
+          <Text style={styles.titleLeague}>
+            {match.opponents[0]?.opponent?.name}
+          </Text>
         </View>
 
         <Text style={styles.middleTitle}>VS</Text>
         <View style={styles.containerImg}>
-          <Image source={icLogo} style={styles.img} />
-          <Text style={styles.titleLeague}>Time 2</Text>
+          {match.opponents[1]?.opponent?.image_url !== null ? (
+            <Image
+              source={{uri: match.opponents[1]?.opponent?.image_url}}
+              style={styles.img}
+              resizeMode="contain"
+            />
+          ) : (
+            <Image source={icLogo} style={styles.img} />
+          )}
+          <Text style={styles.titleLeague}>
+            {match.opponents[1]?.opponent?.name}
+          </Text>
         </View>
       </View>
       <View style={styles.leagueContainerBottom}>
-        <Image
-          source={{uri: match?.league?.image_url}}
-          style={styles.imgBottom}
-        />
+        {match?.league?.image_url !== null ? (
+          <Image
+            source={{uri: match?.league?.image_url}}
+            style={styles.imgBottom}
+          />
+        ) : (
+          <Image source={icLogo} style={styles.imgBottom} />
+        )}
         <Text
           style={
             styles.leagueTitle

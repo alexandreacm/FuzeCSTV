@@ -17,7 +17,7 @@ const CardMatchTime = ({beginDate}: Props) => {
 // define your styles
 const styles = StyleSheet.create({
   matchTime: {
-    width: 43,
+    width: 58,
     height: 25,
     backgroundColor: '#FF0000',
     padding: 8,
