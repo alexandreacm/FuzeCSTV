@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     padding: 23,
   },
   title: {
-    color: '#FFF',
+    color: theme.colors.text.white,
   },
 });
 

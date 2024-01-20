@@ -71,3 +71,10 @@ export interface MatchesResponseType extends BaseResponseType {
   serie: Serie;
   league: League;
 }
+
+export enum statusMatch {
+  finished = 'finished',
+  running = 'running',
+  canceled = 'canceled',
+  not_started = 'not_started',
+}

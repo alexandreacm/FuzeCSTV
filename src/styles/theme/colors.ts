@@ -1,7 +1,7 @@
 export const colors = {
   ui: {
     primary: '#161621',
-    secondary: '#757575',
+    secondary: '#C4C4C4',
     card: '#272639',
     matchTime: '#FF0000',
     error: '#D0421B',
@@ -18,5 +18,6 @@ export const colors = {
   text: {
     primary: '#161621',
     white: '#FFFFFF',
+    black: '#000',
   },
 };

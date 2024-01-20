@@ -2,8 +2,9 @@ import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import {theme} from '../../styles/theme';
 import {Match} from '../../models';
-import icLogo from '../../assets/images/icLogo.png';
 import CardMatchTime from '../CardMatchTime';
+
+import icLogo from '../../assets/images/icLogo.png';
 
 type Props = {
   match: Match;
@@ -16,18 +17,25 @@ const CardMatch = ({match}: Props) => {
 
   return (
     <View style={styles.cardContainer}>
-      <CardMatchTime scheduledAt={match?.scheduled_at} status={match?.status} />
+      <View style={styles.containerCardMatch}>
+        <CardMatchTime
+          scheduledAt={match?.scheduled_at}
+          status={match?.status}
+        />
+      </View>
 
       <View style={styles.teamContainer}>
         <View style={styles.containerImg}>
           {match.opponents[0]?.opponent?.image_url !== null ? (
-            <Image
-              source={{uri: match.opponents[0]?.opponent?.image_url}}
-              style={styles.img}
-              resizeMode="contain"
-            />
+            <View style={styles.containerLogoTeam}>
+              <Image
+                source={{uri: match.opponents[0]?.opponent?.image_url}}
+                style={styles.img}
+                resizeMode="contain"
+              />
+            </View>
           ) : (
-            <Image source={icLogo} style={styles.img} />
+            <View style={styles.DefaultTeamLogo} />
           )}
 
           <Text style={styles.titleLeague}>
@@ -38,13 +46,15 @@ const CardMatch = ({match}: Props) => {
         <Text style={styles.middleTitle}>VS</Text>
         <View style={styles.containerImg}>
           {match.opponents[1]?.opponent?.image_url !== null ? (
-            <Image
-              source={{uri: match.opponents[1]?.opponent?.image_url}}
-              style={styles.img}
-              resizeMode="contain"
-            />
+            <View style={styles.containerLogoTeam}>
+              <Image
+                source={{uri: match.opponents[1]?.opponent?.image_url}}
+                style={styles.img}
+                resizeMode="contain"
+              />
+            </View>
           ) : (
-            <Image source={icLogo} style={styles.img} />
+            <View style={styles.DefaultTeamLogo} />
           )}
           <Text style={styles.titleLeague}>
             {match.opponents[1]?.opponent?.name}
@@ -61,6 +71,7 @@ const CardMatch = ({match}: Props) => {
           <Image source={icLogo} style={styles.imgBottom} />
         )}
         <Text
+          numberOfLines={1}
           style={
             styles.leagueTitle
           }>{`${match?.league?.name} + ${match?.serie?.full_name}`}</Text>
@@ -87,12 +98,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: '#C4C4C4',
+    borderColor: theme.colors.ui.secondary,
     borderBottomWidth: 0.2,
   },
   img: {
-    width: 75,
-    height: 75,
+    width: 60,
+    height: 60,
   },
   middleTitle: {
     width: 14,
@@ -102,7 +113,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     margin: 20,
     textAlign: 'center',
-    color: '#C4C4C4',
+    color: theme.colors.ui.secondary,
   },
   imgBottom: {
     width: 20,
@@ -116,12 +127,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   leagueTitle: {
-    width: '100%',
+    width: 260,
     fontFamily: theme.fonts.heading,
     fontSize: 12,
     fontWeight: '400',
     textAlign: 'left',
-    color: '#FFF',
+    color: theme.colors.text.white,
     marginLeft: 8,
   },
   containerImg: {
@@ -135,8 +146,28 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.titleBold,
     fontSize: 10,
     textAlign: 'center',
-    color: '#FFF',
+    color: theme.colors.text.white,
     paddingTop: 5,
+  },
+  containerCardMatch: {
+    width: '100%',
+    alignItems: 'flex-end',
+  },
+  containerLogoTeam: {
+    width: 80,
+    height: 80,
+    backgroundColor: theme.colors.text.white,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  DefaultTeamLogo: {
+    width: 80,
+    height: 80,
+    backgroundColor: theme.colors.ui.secondary,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

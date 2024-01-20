@@ -16,7 +16,7 @@ export const matchesApi = createApi({
   }),
   endpoints: builder => ({
     getLeagues: builder.query<MatchesResponseType, void>({
-      query: () => 'matches?page=1&per_page=20&sort=-status, begin_at',
+      query: () => 'csgo/matches?page=1&per_page=20&sort=-status, begin_at',
     }),
   }),
 });

@@ -5,6 +5,7 @@ import {format} from 'date-fns';
 import localePtBr from 'date-fns/locale/pt-BR';
 
 import {theme} from '../../styles/theme';
+import {statusMatch} from '../../models';
 
 type Props = {
   scheduledAt: string;
@@ -13,19 +14,20 @@ type Props = {
 
 const CardMatchTime = ({scheduledAt, status}: Props) => {
   const formatOption = "dd'.'MM H':'mm";
+
   return (
     <View
       style={[
         styles.matchTime,
         {
           backgroundColor:
-            status === 'running'
+            status === statusMatch.running
               ? theme.colors.status.running
               : theme.colors.status.finished,
         },
       ]}>
       <Text style={styles.matchTimeText}>
-        {status === 'running'
+        {status === statusMatch.running
           ? 'AGORA'
           : format(scheduledAt, formatOption, {locale: localePtBr})}
       </Text>
@@ -43,10 +45,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderStartEndRadius: 16,
     borderEndStartRadius: 16,
-    position: 'absolute',
-    zIndex: 1,
-    top: -220,
-    left: 260,
   },
   matchTimeText: {
     fontFamily: theme.fonts.titleBold,
