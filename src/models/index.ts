@@ -54,18 +54,6 @@ export type OpponentType = {
   opponent: Opponent;
   type: string;
 };
-export type Players = {
-  id: number;
-  active: boolean;
-  age: number;
-  birthday: string;
-  first_name: string;
-  image_url: string;
-  last_name: string;
-  modified_at: string;
-  name: string;
-};
-
 export interface MatchesResponseType extends BaseResponseType {
   id: number;
   status: string;
@@ -84,8 +72,28 @@ export interface MatchesResponseType extends BaseResponseType {
   league: League;
 }
 
-export interface PlayersResponseType extends BaseResponseType {
+export type Players = {
   id: number;
+  active: boolean;
+  age: number;
+  birthday: string;
+  first_name: string;
+  image_url: string;
+  last_name: string;
+  modified_at: string;
+  name: string;
+};
+
+export type Teams = {
+  id: number;
+  acronym: string;
+  image_url: string;
+  players: Players[];
+};
+
+export interface TeamsResponseType extends BaseResponseType {
+  id: number;
+  acronym: string;
   image_url: string;
   players: Players[];
 }
@@ -96,3 +104,10 @@ export enum statusMatch {
   canceled = 'canceled',
   not_started = 'not_started',
 }
+
+export type CustomError = {
+  data: {
+    message: string;
+    stack: string;
+  };
+};

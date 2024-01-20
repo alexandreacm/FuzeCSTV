@@ -1,9 +1,16 @@
 import React from 'react';
-import {View, Text, StyleSheet, SafeAreaView, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+  FlatList,
+} from 'react-native';
 import {theme} from '../../styles/theme';
 import {useGetTeamsByAcronymQuery} from '../../service/matchesApi';
 import Loading from '../../components/Loading';
-import {statusMatch} from '../../models';
+import {Teams, statusMatch} from '../../models';
 import {format} from 'date-fns';
 import localePtBr from 'date-fns/locale/pt-BR';
 import {formatOption, timeOption} from '../../util';
@@ -14,7 +21,7 @@ type Props = {
       title: string;
       status: string;
       scheduledAt: string;
-      acronym: string;
+      teamIds: number[];
       teamImages: string[];
       teamNames: string[];
     };
@@ -22,17 +29,52 @@ type Props = {
 };
 // create a component
 const MatchDetail = ({route}: Props) => {
-  const {data, isLoading, isError, error} = useGetTeamsByAcronymQuery(
-    route.params.acronym,
-  );
+  const {
+    data = [],
+    isLoading,
+    isError,
+    error,
+  } = useGetTeamsByAcronymQuery(route.params.teamIds);
 
   const {status, scheduledAt, teamImages, teamNames} = route.params;
 
+  const renderItem = ({item}: {item: Teams}) => {
+    return (
+      <View style={styles.flatListContainer}>
+        {item.players.map(item => {
+          return (
+            <View key={`${item.id}`} style={styles.cardNamePlayer}>
+              <View style={styles.frameNamePicture}>
+                <View style={styles.frameNickname}>
+                  <Text
+                    style={
+                      styles.nickname
+                    }>{`${item?.first_name} ${item?.last_name}`}</Text>
+                  <Text style={styles.playerName}>{item?.name}</Text>
+                </View>
+                {item?.image_url !== null ? (
+                  <Image
+                    source={{uri: item.image_url}}
+                    style={styles.picture}
+                  />
+                ) : (
+                  <View style={styles.DefaultPicture} />
+                )}
+              </View>
+            </View>
+          );
+        })}
+      </View>
+    );
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      {isLoading && <Loading />}
-      {isError && <Text style={styles.title}>{JSON.stringify(error)}</Text>}
-
+      {isError && <Text style={styles.error}>{JSON.stringify(error)}</Text>}
       <View style={styles.teamContainer}>
         <View style={styles.containerImg}>
           {teamImages[0] !== null ? (
@@ -68,11 +110,20 @@ const MatchDetail = ({route}: Props) => {
         </View>
       </View>
 
-      <Text style={styles.time}>
-        {status === statusMatch.running
-          ? `Hoje, ${format(scheduledAt, timeOption, {locale: localePtBr})}`
-          : format(scheduledAt, formatOption, {locale: localePtBr})}
-      </Text>
+      <View style={styles.containerTime}>
+        <Text style={styles.time}>
+          {status === statusMatch.running
+            ? `Hoje, ${format(scheduledAt, timeOption, {locale: localePtBr})}`
+            : format(scheduledAt, formatOption, {locale: localePtBr})}
+        </Text>
+      </View>
+
+      <FlatList
+        numColumns={2}
+        keyExtractor={item => String(item.id)}
+        data={data}
+        renderItem={renderItem}
+      />
     </SafeAreaView>
   );
 };
@@ -81,7 +132,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.bg.primary,
-    padding: 23,
+    alignItems: 'center',
   },
   title: {
     color: theme.colors.text.white,
@@ -152,6 +203,66 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: theme.colors.text.white,
     lineHeight: 14.06,
+    marginBottom: 12,
+  },
+  cardNamePlayer: {
+    width: 174,
+    height: 58,
+    borderRadius: 12,
+    backgroundColor: '#272639',
+    marginBottom: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  flatListContainer: {
+    margin: 8,
+  },
+  frameNamePicture: {
+    width: 154,
+    height: 50,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  frameNickname: {
+    width: 90,
+    height: 31,
+  },
+  nickname: {
+    fontFamily: theme.fonts.titleBold,
+    fontSize: 14,
+    fontWeight: '700',
+    textAlign: 'right',
+    color: theme.colors.text.white,
+  },
+  playerName: {
+    lineHeight: 15,
+    fontFamily: theme.fonts.heading,
+    fontSize: 12,
+    fontWeight: '400',
+    textAlign: 'right',
+    color: theme.colors.text.playerName,
+  },
+  picture: {
+    width: 48,
+    height: 48,
+    borderRadius: 50,
+  },
+  DefaultPicture: {
+    width: 48,
+    height: 48,
+    backgroundColor: theme.colors.ui.secondary,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  error: {
+    backgroundColor: theme.colors.ui.error,
+    padding: 10,
+    color: theme.colors.text.white,
+  },
+  containerTime: {
+    marginVertical: 20,
   },
 });
 export default MatchDetail;

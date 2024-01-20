@@ -21,5 +21,6 @@ export const colors = {
     primary: '#161621',
     white: '#FFFFFF',
     black: '#000',
+    playerName: '#6C6B7E',
   },
 };

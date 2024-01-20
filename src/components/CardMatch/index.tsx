@@ -18,7 +18,7 @@ const CardMatch = ({match}: Props) => {
   }
 
   const leagueSerie = `${match?.league?.name} ${match?.serie?.full_name}`;
-  const acronym = `${match?.opponents[0]?.opponent.acronym},${match?.opponents[1]?.opponent.acronym}`;
+  const Ids = `${match?.opponents[0]?.opponent.id},${match?.opponents[1]?.opponent.id}`;
 
   const isImgTeamOne = match.opponents[0]?.opponent?.image_url !== null;
   const imgTeamOne = match.opponents[0]?.opponent?.image_url;
@@ -29,16 +29,18 @@ const CardMatch = ({match}: Props) => {
   const nameTeamOne = match.opponents[0]?.opponent?.name;
   const nameTeamTwo = match.opponents[1]?.opponent?.name;
 
-  //To do: Here I could use a Context Api to send like team name, image, etc....
+  const teamImages = [imgTeamOne, imgTeamTwo];
+  const teamNames = [nameTeamOne, nameTeamTwo];
+
   return (
     <TouchableOpacity
       style={styles.cardContainer}
       onPress={() =>
         navigate('MatchDetail', {
           title: leagueSerie,
-          acronym: acronym,
-          teamImages: [imgTeamOne, imgTeamTwo],
-          teamNames: [nameTeamOne, nameTeamTwo],
+          teamIds: Ids,
+          teamImages: teamImages,
+          teamNames: teamNames,
           scheduledAt: match?.scheduled_at,
           status: match?.status,
         })

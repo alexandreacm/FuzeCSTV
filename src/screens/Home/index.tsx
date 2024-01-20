@@ -5,13 +5,15 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomTitle from '../../components/CustomTitle';
 import {useGetLeaguesQuery} from '../../service/matchesApi';
 import CardMatch from '../../components/CardMatch';
-import {Match} from '../../models';
+import {CustomError, Match} from '../../models';
 import Loading from '../../components/Loading';
+import {SerializedError} from '@reduxjs/toolkit';
 
 const Home = () => {
   const {data = [], isLoading, isError, error} = useGetLeaguesQuery();
 
-  React.useEffect(() => {}, []);
+  //just to implement the error.
+  const customError: CustomError | SerializedError | undefined = error;
 
   const renderItem = ({item}: {item: Match}) => {
     return <CardMatch match={item} />;
@@ -21,7 +23,7 @@ const Home = () => {
       <CustomTitle>Partidas</CustomTitle>
 
       {isLoading && <Loading />}
-      {isError && <Text style={styles.title}>{JSON.stringify(error)}</Text>}
+      {isError && <Text style={styles.error}>{customError?.data?.error}</Text>}
 
       <FlatList
         showsVerticalScrollIndicator={false}
@@ -40,7 +42,9 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.bg.primary,
     padding: 23,
   },
-  title: {
+  error: {
+    backgroundColor: theme.colors.ui.error,
+    padding: 10,
     color: theme.colors.text.white,
   },
 });
