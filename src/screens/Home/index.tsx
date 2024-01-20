@@ -6,6 +6,7 @@ import CustomTitle from '../../components/CustomTitle';
 import {useGetLeaguesQuery} from '../../service/matchesApi';
 import CardMatch from '../../components/CardMatch';
 import {Match} from '../../models';
+import Loading from '../../components/Loading';
 
 const Home = () => {
   const {data = [], isLoading, isError, error} = useGetLeaguesQuery();
@@ -19,7 +20,7 @@ const Home = () => {
     <SafeAreaView style={styles.container}>
       <CustomTitle>Partidas</CustomTitle>
 
-      {isLoading && <Text style={styles.title}>isLoading</Text>}
+      {isLoading && <Loading />}
       {isError && <Text style={styles.title}>{JSON.stringify(error)}</Text>}
 
       <FlatList
