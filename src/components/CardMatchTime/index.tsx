@@ -6,6 +6,7 @@ import localePtBr from 'date-fns/locale/pt-BR';
 
 import {theme} from '../../styles/theme';
 import {statusMatch} from '../../models';
+import {formatOption} from '../../util';
 
 type Props = {
   scheduledAt: string;
@@ -13,8 +14,6 @@ type Props = {
 };
 
 const CardMatchTime = ({scheduledAt, status}: Props) => {
-  const formatOption = "dd'.'MM H':'mm";
-
   return (
     <View
       style={[

@@ -41,6 +41,7 @@ export type Serie = {
 };
 
 export type Opponent = {
+  acronym: string;
   id: number;
   image_url: string | null;
   location: string;
@@ -52,6 +53,17 @@ export type Opponent = {
 export type OpponentType = {
   opponent: Opponent;
   type: string;
+};
+export type Players = {
+  id: number;
+  active: boolean;
+  age: number;
+  birthday: string;
+  first_name: string;
+  image_url: string;
+  last_name: string;
+  modified_at: string;
+  name: string;
 };
 
 export interface MatchesResponseType extends BaseResponseType {
@@ -70,6 +82,12 @@ export interface MatchesResponseType extends BaseResponseType {
   opponents: OpponentType[];
   serie: Serie;
   league: League;
+}
+
+export interface PlayersResponseType extends BaseResponseType {
+  id: number;
+  image_url: string;
+  players: Players[];
 }
 
 export enum statusMatch {

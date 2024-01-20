@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {theme} from '../../styles/theme';
 import {Match} from '../../models';
 import CardMatchTime from '../CardMatchTime';
@@ -11,12 +12,37 @@ type Props = {
 };
 
 const CardMatch = ({match}: Props) => {
+  const {navigate} = useNavigation();
   if (!match?.opponents.length) {
     return null;
   }
 
+  const leagueSerie = `${match?.league?.name} ${match?.serie?.full_name}`;
+  const acronym = `${match?.opponents[0]?.opponent.acronym},${match?.opponents[1]?.opponent.acronym}`;
+
+  const isImgTeamOne = match.opponents[0]?.opponent?.image_url !== null;
+  const imgTeamOne = match.opponents[0]?.opponent?.image_url;
+
+  const isImgTeamTwo = match.opponents[1]?.opponent?.image_url !== null;
+  const imgTeamTwo = match.opponents[1]?.opponent?.image_url;
+
+  const nameTeamOne = match.opponents[0]?.opponent?.name;
+  const nameTeamTwo = match.opponents[1]?.opponent?.name;
+
+  //To do: Here I could use a Context Api to send like team name, image, etc....
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity
+      style={styles.cardContainer}
+      onPress={() =>
+        navigate('MatchDetail', {
+          title: leagueSerie,
+          acronym: acronym,
+          teamImages: [imgTeamOne, imgTeamTwo],
+          teamNames: [nameTeamOne, nameTeamTwo],
+          scheduledAt: match?.scheduled_at,
+          status: match?.status,
+        })
+      }>
       <View style={styles.containerCardMatch}>
         <CardMatchTime
           scheduledAt={match?.scheduled_at}
@@ -26,10 +52,10 @@ const CardMatch = ({match}: Props) => {
 
       <View style={styles.teamContainer}>
         <View style={styles.containerImg}>
-          {match.opponents[0]?.opponent?.image_url !== null ? (
+          {isImgTeamOne ? (
             <View style={styles.containerLogoTeam}>
               <Image
-                source={{uri: match.opponents[0]?.opponent?.image_url}}
+                source={{uri: imgTeamOne}}
                 style={styles.img}
                 resizeMode="contain"
               />
@@ -38,17 +64,22 @@ const CardMatch = ({match}: Props) => {
             <View style={styles.DefaultTeamLogo} />
           )}
 
-          <Text style={styles.titleLeague}>
-            {match.opponents[0]?.opponent?.name}
-          </Text>
+          <Text style={styles.titleLeague}>{nameTeamOne}</Text>
         </View>
 
         <Text style={styles.middleTitle}>VS</Text>
+
         <View style={styles.containerImg}>
-          {match.opponents[1]?.opponent?.image_url !== null ? (
+          {isImgTeamTwo ? (
             <View style={styles.containerLogoTeam}>
               <Image
-                source={{uri: match.opponents[1]?.opponent?.image_url}}
+                source={
+                  isImgTeamTwo ? (
+                    {uri: imgTeamTwo}
+                  ) : (
+                    <View style={styles.DefaultTeamLogo} />
+                  )
+                }
                 style={styles.img}
                 resizeMode="contain"
               />
@@ -56,9 +87,7 @@ const CardMatch = ({match}: Props) => {
           ) : (
             <View style={styles.DefaultTeamLogo} />
           )}
-          <Text style={styles.titleLeague}>
-            {match.opponents[1]?.opponent?.name}
-          </Text>
+          <Text style={styles.titleLeague}>{nameTeamTwo}</Text>
         </View>
       </View>
       <View style={styles.leagueContainerBottom}>
@@ -70,13 +99,11 @@ const CardMatch = ({match}: Props) => {
         ) : (
           <Image source={icLogo} style={styles.imgBottom} />
         )}
-        <Text
-          numberOfLines={1}
-          style={
-            styles.leagueTitle
-          }>{`${match?.league?.name} + ${match?.serie?.full_name}`}</Text>
+        <Text numberOfLines={1} style={styles.leagueTitle}>
+          {leagueSerie}
+        </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

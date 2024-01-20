@@ -4,6 +4,8 @@ export const colors = {
     secondary: '#C4C4C4',
     card: '#272639',
     matchTime: '#FF0000',
+    white: '#FFFFFF',
+    black: '#000',
     error: '#D0421B',
     success: '#138000',
     cardMatchTime: '#474655',
